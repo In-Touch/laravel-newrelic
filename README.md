@@ -9,7 +9,7 @@ Add `intouch/laravel-newrelic` to your composer requirements:
 
 Now, run `composer update`
 
-Once the package is installed, open your `app/config/app.php` configuration file and location the `providers` key.  Add the following line to the end:
+Once the package is installed, open your `app/config/app.php` configuration file and locate the `providers` key.  Add the following line to the end:
 
     'Intouch\LaravelNewrelic\LaravelNewrelicServiceProvider',
 
