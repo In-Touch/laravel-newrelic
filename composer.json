@@ -1,0 +1,25 @@
+{
+    "name":              "intouch/laravel-newrelic",
+    "type":              "library",
+    "keywords":          ["newrelic", "new relic", "laravel"],
+    "homepage":          "https://github.com/pleckey/laravel-newrelic",
+    "license":           "MIT",
+    "description":       "Laravel 4 NewRelic Integration",
+    "authors":           [
+        {
+            "name":  "Patrick Leckey",
+            "email": "pleckey@intouchinsight.com"
+        }
+    ],
+    "require":           {
+        "php":                ">=5.3.0",
+        "illuminate/support": "4.0.x",
+        "intouch/newrelic":   "*"
+    },
+    "autoload":          {
+        "psr-0": {
+            "Intouch\\LaravelNewrelic": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
