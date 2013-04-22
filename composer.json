@@ -2,7 +2,7 @@
     "name":              "intouch/laravel-newrelic",
     "type":              "library",
     "keywords":          ["newrelic", "new relic", "laravel"],
-    "homepage":          "https://github.com/pleckey/laravel-newrelic",
+    "homepage":          "https://github.com/In-Touch/laravel-newrelic",
     "license":           "MIT",
     "description":       "Laravel 4 NewRelic Integration",
     "authors":           [
