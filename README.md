@@ -23,7 +23,7 @@ Finally, publish the default configuration (it will end up in `app/config/packag
 
 ###Configuration
 
-**auto_name_transactions**
+=> **auto_name_transactions**
 
 * type: bool
 * default: true

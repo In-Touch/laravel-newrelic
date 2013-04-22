@@ -1,4 +1,19 @@
 <?php
+/**
+ * Copyright 2013 In-Touch Insight Systems
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 namespace Intouch\LaravelNewrelic;
 
 use Illuminate\Support\ServiceProvider;
@@ -56,11 +71,11 @@ class LaravelNewrelicServiceProvider extends ServiceProvider
      */
     protected function registerNamedTransactions()
     {
-        if ( true == $this->app['config']['laravel-newrelic::auto_name_transactions'] )
-        {
-            $app = $this->app;
-            $app->after(
-                function ( $request, $response ) use ( $app )
+        $app = $this->app;
+        $app->after(
+            function ( $request, $response ) use ( $app )
+            {
+                if ( true == $app['config']['laravel-newrelic::auto_name_transactions'] )
                 {
                     /** @var \Illuminate\Routing\Router $router */
                     $router = $app['router'];
@@ -69,7 +84,7 @@ class LaravelNewrelicServiceProvider extends ServiceProvider
 
                     $newrelic->nameTransaction( $router->currentRouteName() );
                 }
-            );
-        }
+            }
+        );
     }
 }
