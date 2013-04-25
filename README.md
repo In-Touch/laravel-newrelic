@@ -31,6 +31,12 @@ Finally, publish the default configuration (it will end up in `app/config/packag
     * ex: Route::get('foo/{id}/bar/{name}', ...) will be named: 'get foo/{id}/bar/{name}'
     * the uri parameters will not be replaced, it will be the string literal
 
+=> **throw_if_not_installed**
+
+* type: bool
+* default: false
+* if true, will throw an exception if NewRelic PHP agent is not found / installed
+
 ###Basic Use
 The registered Service Provider includes a Facade to the [Intouch/Newrelic](http://github.com/In-Touch/newrelic) class.  Any of its methods may be accessed as any other Facade is accessed, for example:
 
