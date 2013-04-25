@@ -16,6 +16,7 @@
  */
 namespace Intouch\LaravelNewrelic;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Intouch\Newrelic\Newrelic;
 
@@ -49,7 +50,7 @@ class LaravelNewrelicServiceProvider extends ServiceProvider
         $this->app['newrelic'] = $this->app->share(
             function ( $app )
             {
-                return new Newrelic();
+                return new Newrelic( $app['config']['laravel-newrelic::throw_if_not_installed'] );
             }
         );
 
