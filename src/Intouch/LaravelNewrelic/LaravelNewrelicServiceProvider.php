@@ -83,7 +83,7 @@ class LaravelNewrelicServiceProvider extends ServiceProvider
                     /** @var \Intouch\Newrelic\Newrelic $newrelic */
                     $newrelic = $app['newrelic'];
 
-                    $newrelic->nameTransaction( $router->current() );
+                    $newrelic->nameTransaction( $router->currentRouteName() );
                 }
             }
         );
