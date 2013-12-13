@@ -1,5 +1,10 @@
 #Laravel 4 NewRelic package
 
+###Note
+This package has been updated to support the new router methods in Laravel 4.1: thank you @altrim and @PhiloNL.
+
+For Laravel 4.0.x support, please use 1.0.x as your composer requirement.  We will continue to accept pulls for Laravel 4.0-compatible features on the 1.0.x tags.
+
 ###Installation
 Add `intouch/laravel-newrelic` to your composer requirements:
 
