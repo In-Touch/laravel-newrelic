@@ -78,14 +78,38 @@ class LaravelNewrelicServiceProvider extends ServiceProvider
             {
                 if ( true == $app['config']['laravel-newrelic::auto_name_transactions'] )
                 {
-                    /** @var \Illuminate\Routing\Router $router */
-                    $router = $app['router'];
                     /** @var \Intouch\Newrelic\Newrelic $newrelic */
                     $newrelic = $app['newrelic'];
 
-                    $newrelic->nameTransaction( $router->currentRouteName() );
+                    $newrelic->nameTransaction( $this->getTransactionName( $request, $response, $app ) );
                 }
             }
         );
+    }
+
+    /**
+     * Build the transaction name
+     *
+     * @param  \Illuminate\Http\Request           $request
+     * @param  \Illuminate\Http\Response          $response
+     * @param  \Illuminate\Foundation\Application $app
+     * @return string
+     */
+    protected function getTransactionName( $request, $response, $app )
+    {
+        $nameProvider = $app['config']['laravel-newrelic::name_provider'];
+
+        if ( is_callable( $nameProvider ) ) {
+            $name = $nameProvider( $request, $response, $app );
+        } else {
+            /** @var \Illuminate\Routing\Router $router */
+            $router = $app['router'];
+
+            $name = $router->currentRouteName()
+                ?: $router->currentRouteAction()
+                ?: $request->getMethod() . ' ' . $request->getPathInfo();
+        }
+
+        return $name;
     }
 }

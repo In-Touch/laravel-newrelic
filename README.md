@@ -32,9 +32,16 @@ Finally, publish the default configuration (it will end up in `app/config/packag
 
 * type: bool
 * default: true
-* this will automatically name all transactions by their route name
-    * ex: Route::get('foo/{id}/bar/{name}', ...) will be named: 'get foo/{id}/bar/{name}'
-    * the uri parameters will not be replaced, it will be the string literal
+* this will automatically name all transactions with the following precedence
+    1. Route name (e.g. "home")
+    2. Controller and method (e.g. "HomeController@showWelcome")
+    3. HTTP verb + path (e.g. "GET /")
+
+=> **name_provider**
+
+* type: closure or null
+* default: null
+* if a closure is provided, this allows for full customization of the transaction name with access to \Illuminate\Http\Request, \Illuminate\Http\Response and \Illuminate\Foundation\Application as parameters for convenience.
 
 => **throw_if_not_installed**
 
