@@ -72,16 +72,17 @@ class LaravelNewrelicServiceProvider extends ServiceProvider
      */
     protected function registerNamedTransactions()
     {
+        $me = $this;
         $app = $this->app;
         $app->after(
-            function ( $request, $response ) use ( $app )
+            function ( $request, $response ) use ( $me, $app )
             {
                 if ( true == $app['config']['laravel-newrelic::auto_name_transactions'] )
                 {
                     /** @var \Intouch\Newrelic\Newrelic $newrelic */
                     $newrelic = $app['newrelic'];
 
-                    $newrelic->nameTransaction( $this->getTransactionName( $request, $response, $app ) );
+                    $newrelic->nameTransaction( $me->getTransactionName( $request, $response, $app ) );
                 }
             }
         );
