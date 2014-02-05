@@ -96,7 +96,7 @@ class LaravelNewrelicServiceProvider extends ServiceProvider
      * @param  \Illuminate\Foundation\Application $app
      * @return string
      */
-    protected function getTransactionName( $request, $response, $app )
+    public function getTransactionName( $request, $response, $app )
     {
         $nameProvider = $app['config']['laravel-newrelic::name_provider'];
 
