@@ -21,8 +21,7 @@ return array(
     'name_provider' => null,
 
     // 'name_provider' => function ($request, $response, $app) {
-    //     return $app['router']->currentRouteAction()
-    //         ?: $request->getMethod() . ' ' . $request->getPathInfo();
+    //     return $request->getMethod() . ' ' . $request->getPathInfo();
     // },
 
     /*
