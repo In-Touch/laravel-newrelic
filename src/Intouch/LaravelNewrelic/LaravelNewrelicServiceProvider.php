@@ -74,7 +74,7 @@ class LaravelNewrelicServiceProvider extends ServiceProvider
     {
         $me = $this;
         $app = $this->app;
-        $app->after(
+        $app['router']->after(
             function ( $request, $response ) use ( $me, $app )
             {
                 if ( true == $app['config']['laravel-newrelic::auto_name_transactions'] )
