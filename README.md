@@ -1,9 +1,10 @@
-#Laravel 4 NewRelic package
+#Laravel NewRelic package
 
 ###Note
-This package has been updated to support the new router methods in Laravel 4.1: thank you @altrim and @PhiloNL.
+**dev-master is currently undergoing updates to support Laravel 5**
 
-For Laravel 4.0.x support, please use 1.0.x as your composer requirement.  We will continue to accept pulls for Laravel 4.0-compatible features on the 1.0.x tags.
+    For Laravel 4.1/4.2 support, please use the latest 1.1.x tag.
+    For Laravel 4.0 support, please use the latest 1.0.x tag.
 
 ###Installation
 Add `intouch/laravel-newrelic` to your composer requirements:
@@ -12,7 +13,7 @@ Add `intouch/laravel-newrelic` to your composer requirements:
         "intouch/laravel-newrelic": "*"
     }
 
-Now, run `composer update`
+Now, run `composer install`
 
 Once the package is installed, open your `app/config/app.php` configuration file and locate the `providers` key.  Add the following line to the end:
 
