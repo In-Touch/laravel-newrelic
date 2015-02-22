@@ -4,7 +4,7 @@
     "keywords":          ["newrelic", "new relic", "laravel"],
     "homepage":          "https://github.com/In-Touch/laravel-newrelic",
     "license":           "Apache 2.0",
-    "description":       "Laravel 4 NewRelic Integration",
+    "description":       "Laravel 5 NewRelic Integration",
     "authors":           [
         {
             "name":  "Patrick Leckey",
@@ -12,8 +12,8 @@
         }
     ],
     "require":           {
-        "php":                ">=5.3.0",
-        "illuminate/support": "4.*",
+        "php":                ">=5.4.0",
+        "illuminate/support": "5.*",
         "intouch/newrelic":   ">=1.0.2"
     },
     "require-dev":       {
