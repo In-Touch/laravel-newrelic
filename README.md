@@ -25,7 +25,7 @@ Next, locate the `aliases` key and add the following line:
 
 Finally, publish the default configuration (it will end up in `app/config/packages/intouch/laravel-newrelic/config.php`):
 
-    $ php artisan publish:config intouch/laravel-newrelic
+    $ php artisan config:publish intouch/laravel-newrelic
 
 ###Configuration
 
