@@ -1,31 +1,43 @@
 #Laravel NewRelic package
 
+## Laravel 5
+
+Please see the following issue, open with NewRelic:
+
+[https://discuss.newrelic.com/t/php-agent-4-19-0-disabled-3rd-party-service-provider-incorrectly/1666](https://discuss.newrelic.com/t/php-agent-4-19-0-disabled-3rd-party-service-provider-incorrectly/16667)
+
 ###Note
 **dev-master is currently undergoing updates to support Laravel 5**
 
-    For Laravel 4.1/4.2 support, please use the latest 1.1.x tag.
-    For Laravel 4.0 support, please use the latest 1.0.x tag.
+    For **Laravel 4.1/4.2** support, please use the latest 1.1.x tag.
+    For **Laravel 4.0** support, please use the latest 1.0.x tag.  Laravel 4.0 support is deprecated and will not be
+    updated.
 
 ###Installation
-Add `intouch/laravel-newrelic` to your composer requirements:
+
+Using `composer`, run:
+
+    composer require intouch/laravel-newrelic:~2.0
+
+Or add `intouch/laravel-newrelic` to your composer requirements:
 
     "require": {
-        "intouch/laravel-newrelic": "*"
+        "intouch/laravel-newrelic": "~2.0"
     }
 
-Now, run `composer install`
+... and then run `composer install`
 
 Once the package is installed, open your `app/config/app.php` configuration file and locate the `providers` key.  Add the following line to the end:
 
     'Intouch\LaravelNewrelic\LaravelNewrelicServiceProvider',
 
-Next, locate the `aliases` key and add the following line:
+Optionally, locate the `aliases` key and add the following line:
 
     'Newrelic'        => 'Intouch\LaravelNewrelic\Facades\Newrelic',
 
 Finally, publish the default configuration (it will end up in `app/config/packages/intouch/laravel-newrelic/config.php`):
 
-    $ php artisan publish:config intouch/laravel-newrelic
+    $ php artisan vendor:publish
 
 ###Configuration
 
@@ -53,6 +65,8 @@ Finally, publish the default configuration (it will end up in `app/config/packag
 ###Basic Use
 The registered Service Provider includes a Facade to the [Intouch/Newrelic](http://github.com/In-Touch/newrelic) class.  Any of its methods may be accessed as any other Facade is accessed, for example:
 
-    Newrelic::setAppName( 'MyApp' );
+    App::before( function() {
+        Newrelic::setAppName( 'MyApp' );
+    } );
 
 ... would set the NewRelic App Name to 'MyApp'
