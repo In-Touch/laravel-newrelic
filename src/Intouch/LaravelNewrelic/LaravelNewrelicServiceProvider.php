@@ -100,7 +100,7 @@ class LaravelNewrelicServiceProvider extends ServiceProvider
      */
     public function getTransactionName( $request, $response, $app )
     {
-        $nameProvider = $app['config']->get('laravel-newrelic::name_provider');
+        $nameProvider = $app['config']->get('laravel-newrelic.name_provider');
 
         if ( is_callable( $nameProvider ) ) {
             $name = $nameProvider( $request, $response, $app );
