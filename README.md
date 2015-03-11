@@ -25,15 +25,19 @@ Or add `intouch/laravel-newrelic` to your composer requirements:
 Once the package is installed, open your `app/config/app.php` configuration file and locate the `providers` key.  Add 
 the following line to the end:
 
-    'Intouch\LaravelNewrelic\NewrelicServiceProvider',
+```php
+'Intouch\LaravelNewrelic\NewrelicServiceProvider',
+```
 
 Optionally, locate the `aliases` key and add the following line:
 
-    'Newrelic' => 'Intouch\LaravelNewrelic\Facades\Newrelic',
+```php
+'Newrelic' => 'Intouch\LaravelNewrelic\Facades\Newrelic',
+```
 
 Finally, publish the default configuration (it will end up in `config/newrelic.php`):
 
-    $ php artisan vendor:publish
+    php artisan vendor:publish
 
 ### Configuration
 
