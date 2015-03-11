@@ -1,5 +1,5 @@
 # Laravel 5 NewRelic Service Provider
-*see below for Laravel 4.x support*
+*[see below for Laravel 4.x support](https://github.com/In-Touch/laravel-newrelic#laravel-4x-support)*
 
 ### Installation
 
