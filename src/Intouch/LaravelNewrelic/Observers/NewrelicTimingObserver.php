@@ -128,6 +128,7 @@ class NewrelicTimingObserver
 	 */
 	public function created( $model )
 	{
+		if ( !in_array( 'created', $this->care ) ) return;
 		$ms = round( static::$times['create'] + microtime( true ), 3 ) * 1000;
 		\Newrelic::customMetric( $this->getMetricName( $model, 'created' ), $ms );
 	}
@@ -139,6 +140,7 @@ class NewrelicTimingObserver
 	 */
 	public function saved( $model )
 	{
+		if ( !in_array( 'saved', $this->care ) ) return;
 		$ms = round( static::$times['save'] + microtime( true ), 3 ) * 1000;
 		\Newrelic::customMetric( $this->getMetricName( $model, 'saved' ), $ms );
 	}
@@ -150,6 +152,7 @@ class NewrelicTimingObserver
 	 */
 	public function deleted( $model )
 	{
+		if ( !in_array( 'deleted', $this->care ) ) return;
 		$ms = round( static::$times['delete'] + microtime( true ), 3 ) * 1000;
 		\Newrelic::customMetric( $this->getMetricName( $model, 'deleted' ), $ms );
 	}
@@ -161,6 +164,7 @@ class NewrelicTimingObserver
 	 */
 	public function updated( $model )
 	{
+		if ( !in_array( 'updated', $this->care ) ) return;
 		$ms = round( static::$times['update'] + microtime( true ), 3 ) * 1000;
 		\Newrelic::customMetric( $this->getMetricName( $model, 'updated' ), $ms );
 	}
@@ -172,6 +176,7 @@ class NewrelicTimingObserver
 	 */
 	public function restored( $model )
 	{
+		if ( !in_array( 'restored', $this->care ) ) return;
 		$ms = round( static::$times['restore'] + microtime( true ), 3 ) * 1000;
 		\Newrelic::customMetric( $this->getMetricName( $model, 'restored' ), $ms );
 	}
