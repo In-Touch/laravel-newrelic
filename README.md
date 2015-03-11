@@ -52,8 +52,10 @@ The `NewrelicCountingObserver` can be used for any observable model events, incl
 
 Using the observers is simple - wherever you choose to register your model observers, simply add:
 
-    User::observe(new \Intouch\LaravelNewrelic\Observers\NewrelicTimingObserver() );
-    User::observe(new \Intouch\LaravelNewrelic\Observers\NewrelicCountingObserver() );
+```php
+User::observe(new \Intouch\LaravelNewrelic\Observers\NewrelicTimingObserver() );
+User::observe(new \Intouch\LaravelNewrelic\Observers\NewrelicCountingObserver() );
+```
     
 ... assuming you want to observe the `User` model.
 
