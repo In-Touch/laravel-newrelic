@@ -37,6 +37,21 @@ Finally, publish the default configuration (it will end up in `config/newrelic.p
 Once the configuration from the package if published, see `config/newrelic.php` for configuration options and 
 descriptions.
 
+### Transaction Names
+
+Naming is done by replacing tokens in a `name_provider` string with formatted output collected from the application.
+The `newrelic.name_provider` config parameter holds this string - note that non-token string parts are left as-is.
+
+| Token | Description | Example |
+|-------|-------------|---------|
+| {controller} | Controller / Action name                    | App\Http\Controllers\MyController@action |
+| {method}     | HTTP Verb                                   | GET, POST |
+| {route}      | Route Name if named, otherwise {controller} | auth.login |
+| {path}       | Registered route path                       | /users/{id?} |
+| {uri}        | Request URI path                            | /users/12345 |
+
+The default `newrelic.name_provider` string is `'{uri} {route}'`.
+
 ### Eloquent Model Observers
 
 There are two observer classes for monitoring your Eloquent models, the `NewrelicCountingObserver` and the
