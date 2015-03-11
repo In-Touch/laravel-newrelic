@@ -1,23 +1,16 @@
-#Laravel NewRelic package
-
-### Note
-
-**`master` is currently undergoing updates to support Laravel 5**
-
-    For **Laravel 4.1/4.2** support, please use the latest 1.1.x tag.
-    For **Laravel 4.0** support, please use the latest 1.0.x tag.  Laravel 4.0 support is deprecated and will not be
-    updated.
+# Laravel 5 NewRelic Service Provider
+*see below for Laravel 4.x support*
 
 ### Installation
 
 Using `composer`, run:
 
-    composer require intouch/laravel-newrelic:dev-master
+    composer require intouch/laravel-newrelic:"~2.0"
 
 Or add `intouch/laravel-newrelic` to your composer requirements:
 
     "require": {
-        "intouch/laravel-newrelic": "dev-master"
+        "intouch/laravel-newrelic": "~2.0"
     }
 
 ... and then run `composer install`
@@ -67,26 +60,33 @@ Both observers take two optional parameters to their constructors: `$name` and `
 to give to your custom metric, and if unset will default to the class name of the model object it is observing.  If you
 want to change the `$care` array without changing the naming, simply pass `null` as the first constructor argument.
 
-`$care` is an array of event names you want to care about.  This differs slightly between the ___Counting___ and
-___Timing___ observers.  For the ___Counting___ observer, any event can be counted independently.  For the ___Timing___
+`$care` is an array of event names you want to care about.  This differs slightly between the *Counting* and
+*Timing* observers.  For the *Counting* observer, any event can be counted independently.  For the *Timing*
 observer, it uses the difference in time between `saving` and `saved` to submit the metric, so only the after-operation
 events can be observed: `created`, `saved`, `updated`, `deleted`, `restored`.  This is also why custom observable events
-are not supported for the ___Timing___ observer (yet ... working on it, we're happy to take PRs).
+are not supported for the *Timing* observer (yet ... working on it, we're happy to take PRs).
 
-Per NewRelic's "best practice" suggestions, all metric names are prefaced with 'Custom/'.  The ___Counting___ observer 
-also adds 'Counts/' to the name, while the ___Timing___ observer adds 'Timing/' to the name.  Both observers append
-the event name to the end of the metric name.  Take as an example, using the ___Counting___ observer on the `User` model
+Per NewRelic's "best practice" suggestions, all metric names are prefaced with 'Custom/'.  The *Counting* observer 
+also adds 'Counts/' to the name, while the *Timing* observer adds 'Timing/' to the name.  Both observers append
+the event name to the end of the metric name.  Take as an example, using the *Counting* observer on the `User` model
 monitoring the `created` event - the name would be: `Custom/Counts/App/User/created` (where `App/User` is the namespaced
-class named of the observed model, or will be whatever you set in `$name` if supplied).
+class name of the observed model with slashes reversed for NewRelic metric paths, or will be whatever you set in `$name` 
+if supplied).
+
+It is safe to run these observers in integration tests or interactive test environments as long as 
+`newrelic.throw_if_not_installed` is set to `false`.  Then if the NewRelic PHP Agent is not installed in that 
+environment, the custom metrics will simply not be recorded.  If the NewRelic PHP Agent is installed in that 
+environment, the metrics will be recorded.
+
+The default events both observers care about are: `created`, `saved`, `updated`, `deleted`, `restored`.
 
 **NOTE:** To use the observers, the `Newrelic` Facade must be loaded in your application configuration, not just the 
 Service Provider.
 
-It is safe to run these observers in integration tests or interactive test environments as long as 
-`newrelic.throw_if_not_installed` is set to `false`.  Then if the NewRelic PHP Agent is not installed in that 
-environment, the custom metrics will simply not be recorded.
+**NOTE:** NewRelic restricts the total number of custom metrics you can have to 2000, and recommends less than 1000.
 
-The default events both observers care about are: `created`, `saved`, `updated`, `deleted`, `restored`.
+#### Example Custom Metrics Dashboard
+![dashboard](dashboard.png)
 
 ### Basic Use
 
@@ -98,6 +98,16 @@ Any of its methods may be accessed as any other Facade is accessed, for example:
     } );
 
 ... would set the NewRelic App Name to 'MyApp'
+
+### Laravel 4.x Support
+
+| Laravel Version | Package Tag | Supported |
+|-----------------|-------------|-----------|
+| 4.2.x | [1.1.5](https://github.com/In-Touch/laravel-newrelic/tree/1.1.5) | yes |
+| 4.1.x | [1.1.5](https://github.com/In-Touch/laravel-newrelic/tree/1.1.5) | no |
+| 4.0.x | [1.0.4](https://github.com/In-Touch/laravel-newrelic/tree/1.0.4) | no |
+*we will review PRs for unsupported versions, but we don't use those versions in production ourselves so we aren't
+testing / working on that*
 
 ### Issues
 

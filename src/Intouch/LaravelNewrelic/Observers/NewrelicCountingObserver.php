@@ -58,7 +58,8 @@ class NewrelicCountingObserver
 		}
 
 		$model = array_shift( $args );
-		$name  = 'Custom/Counts/' . ltrim( $this->name ?: get_class( $model ), '/' ) . '/' . $event;
+		$metric = trim( str_replace( '\\', '/', $this->name ?: get_class( $model ) ), '/' );
+		$name  = 'Custom/Counts/' . $metric . '/' . $event;
 
 		/**
 		 * NewRelic assumes custom metrics to be in milliseconds, so 4 gets interpreted as

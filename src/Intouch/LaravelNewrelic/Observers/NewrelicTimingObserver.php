@@ -68,7 +68,7 @@ class NewrelicTimingObserver
 
 	protected function getMetricName( $model, $event )
 	{
-		return 'Custom/Timing/' . ltrim( $this->name ?: get_class( $model ), '/' ) . '/' . $event;
+		return 'Custom/Timing/' . trim( str_replace( '\\', '/', $this->name ?: get_class( $model ) ), '/' ) . '/' . $event;
 	}
 
 	/**
