@@ -1,7 +1,7 @@
 # Laravel 5 NewRelic Service Provider
 *[see below for Laravel 4.x support](https://github.com/In-Touch/laravel-newrelic#laravel-4x-support)*
 
-### Installation
+## Installation
 
 Using `composer`, run:
 
@@ -32,12 +32,12 @@ Finally, publish the default configuration (it will end up in `config/newrelic.p
 
     php artisan vendor:publish
 
-### Configuration
+## Configuration
 
 Once the configuration from the package if published, see `config/newrelic.php` for configuration options and 
 descriptions.
 
-### Transaction Names
+## Transaction Names
 
 Naming is done by replacing tokens in a `name_provider` string with formatted output collected from the application.
 The `newrelic.name_provider` config parameter holds this string - note that non-token string parts are left as-is.
@@ -52,7 +52,7 @@ The `newrelic.name_provider` config parameter holds this string - note that non-
 
 The default `newrelic.name_provider` string is `'{uri} {route}'`.
 
-### Eloquent Model Observers
+## Eloquent Model Observers
 
 There are two observer classes for monitoring your Eloquent models, the `NewrelicCountingObserver` and the
 `NewrelicTimingObserver`.  As their names suggest, one counts the number of times observable model events happen and the
@@ -103,7 +103,7 @@ Service Provider.
 #### Example Custom Metrics Dashboard
 ![dashboard](dashboard.png)
 
-### Basic Use
+## Basic Use
 
 This package includes a Facade to the [Intouch/Newrelic](http://github.com/In-Touch/newrelic) class.  
 Any of its methods may be accessed as any other Facade is accessed, for example:
@@ -114,7 +114,7 @@ Any of its methods may be accessed as any other Facade is accessed, for example:
 
 ... would set the NewRelic App Name to 'MyApp'
 
-### Laravel 4.x Support
+## Laravel 4.x Support
 
 | Laravel Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
@@ -124,7 +124,7 @@ Any of its methods may be accessed as any other Facade is accessed, for example:
 *we will review PRs for unsupported versions, but we don't use those versions in production ourselves so we aren't
 testing / working on that*
 
-### Issues
+## Issues
 
 Before opening an issues for data not reporting in the format you have configured, please check your NewRelic PHP Agent 
 logs and please see:
