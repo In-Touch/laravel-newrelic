@@ -106,9 +106,15 @@ class LaravelNewrelicServiceProvider extends ServiceProvider
             /** @var \Illuminate\Routing\Router $router */
             $router = $app['router'];
 
-            $name = $router->currentRouteName()
-                ?: $router->current() && $router->currentRouteAction()
-                ?: $request->getMethod() . ' ' . $request->getPathInfo();
+            if ( $router->currentRouteName() ) { 
+                $name = $router->currentRouteName();
+            } else {
+                if ( $router->current() && $router->currentRouteAction() ) {
+                    $name = $router->currentRouteAction();
+                } else {
+                    $name = $request->getMethod() . ' ' . $request->getPathInfo();
+                }
+            }
         }
 
         return $name;
