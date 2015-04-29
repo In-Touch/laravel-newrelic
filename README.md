@@ -30,7 +30,7 @@ Optionally, locate the `aliases` key and add the following line:
 
 Finally, publish the default configuration (it will end up in `config/newrelic.php`):
 
-    php artisan vendor:publish
+    php artisan vendor:publish --provider="intouch/laravel-newrelic"
 
 ## Configuration
 
