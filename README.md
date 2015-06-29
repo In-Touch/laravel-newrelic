@@ -15,7 +15,7 @@ Or add `intouch/laravel-newrelic` to your composer requirements:
 
 ... and then run `composer install`
 
-Once the package is installed, open your `app/config/app.php` configuration file and locate the `providers` key.  Add 
+Once the package is installed, open your `config/app.php` configuration file and locate the `providers` key.  Add 
 the following line to the end:
 
 ```php
@@ -30,7 +30,7 @@ Optionally, locate the `aliases` key and add the following line:
 
 Finally, publish the default configuration (it will end up in `config/newrelic.php`):
 
-    php artisan vendor:publish --provider="intouch/laravel-newrelic"
+    php artisan vendor:publish --provider="Intouch\LaravelNewrelic\NewrelicServiceProvider"
 
 ## Configuration
 
