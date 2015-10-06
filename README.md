@@ -19,13 +19,13 @@ Once the package is installed, open your `config/app.php` configuration file and
 the following line to the end:
 
 ```php
-'Intouch\LaravelNewrelic\NewrelicServiceProvider',
+Intouch\LaravelNewrelic\NewrelicServiceProvider::class,
 ```
 
 Optionally, locate the `aliases` key and add the following line:
 
 ```php
-'Newrelic' => 'Intouch\LaravelNewrelic\Facades\Newrelic',
+'Newrelic' => Intouch\LaravelNewrelic\Facades\Newrelic::class,
 ```
 
 Finally, publish the default configuration (it will end up in `config/newrelic.php`):
