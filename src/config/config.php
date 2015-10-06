@@ -15,7 +15,7 @@ return array(
 	 * Set this to false to use the NewRelic default naming
 	 * scheme, or to set your own in your application.
 	 */
-	'auto_name_transactions' => true,
+	'auto_name_transactions' => env('NEWRELIC_AUTO_NAME_TRANSACTION', true),
 
 	/*
 	 * Define the name used when automatically naming transactions.
@@ -31,12 +31,12 @@ return array(
 	 *          "GET /world" with pattern 'hello {path} you really {method} me' would return:
 	 *          'hello /world you really GET me'
 	 */
-	'name_provider' => '{uri} {route}',
+	'name_provider' => env('NEWRELIC_NAME_PROVIDER', '{uri} {route}'),
 
 	/*
 	 * Will cause an exception to be thrown if the NewRelic
 	 * PHP agent is not found / installed
 	 */
-	'throw_if_not_installed' => false,
+	'throw_if_not_installed' => env('NEWRELIC_THROW_IF_NOT_INSTALLED', false),
 
 );
