@@ -16,6 +16,7 @@
  */
 namespace Intouch\LaravelNewrelic;
 
+use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\ServiceProvider;
 use Intouch\Newrelic\Newrelic;
 
@@ -74,13 +75,12 @@ class NewrelicServiceProvider extends ServiceProvider
 	{
 		$me  = $this;
 		$app = $this->app;
-		$app['router']->after(
-			function ( $request, $response ) use ( $me ) {
-				if (true == $me->app['config']->get( 'newrelic.auto_name_transactions' )) {
-					$me->app['newrelic']->nameTransaction( $me->getTransactionName() );
-				}
-			}
-		);
+
+		if ($app['config']->get( 'newrelic.auto_name_transactions' )) {
+			$app['events']->listen(RouteMatched::class, function (RouteMatched $routeMatched) use ( $me, $app ) {
+				$app['newrelic']->nameTransaction( $me->getTransactionName() );
+			});
+		}
 	}
 
 	/**
