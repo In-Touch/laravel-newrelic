@@ -7,7 +7,11 @@ use Closure;
 
 class LumenNewrelicMiddleware
 {
-		public function handle(Request $request, Closure $next)
+  /**
+   * @param Request $request
+   * @param Closure $next
+   */
+  public function handle(Request $request, Closure $next)
 	{
 		$config = app()['config'];
 
