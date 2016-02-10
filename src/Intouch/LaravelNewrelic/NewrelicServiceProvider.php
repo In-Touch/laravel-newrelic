@@ -73,12 +73,11 @@ class NewrelicServiceProvider extends ServiceProvider
 	 */
 	protected function registerNamedTransactions()
 	{
-		$me  = $this;
 		$app = $this->app;
 
 		if ($app['config']->get( 'newrelic.auto_name_transactions' )) {
-			$app['events']->listen(RouteMatched::class, function (RouteMatched $routeMatched) use ( $me, $app ) {
-				$app['newrelic']->nameTransaction( $me->getTransactionName() );
+			$app['events']->listen(RouteMatched::class, function (RouteMatched $routeMatched) use ( $app ) {
+				$app['newrelic']->nameTransaction( $this->getTransactionName() );
 			});
 		}
 	}
