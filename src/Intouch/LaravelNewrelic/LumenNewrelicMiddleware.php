@@ -79,41 +79,41 @@ class LumenNewrelicMiddleware
 
 		$verbs = 'GET|POST|PUT|DELETE|PATCH';
 
-    $routeToRegex = function ($string) use ($verbs) {
-      $string = preg_replace("/^({$verbs})/", '', $string);
-      $string = preg_replace('/\{\w+\}/', '[^/]+', $string);
-      $string = preg_replace('/\{(\w+):(.+?)\}/', '\2', $string);
-      return '#^'.$string.'$#';
-    };
+		$routeToRegex = function ($string) use ($verbs) {
+			$string = preg_replace("/^({$verbs})/", '', $string);
+			$string = preg_replace('/\{\w+\}/', '[^/]+', $string);
+			$string = preg_replace('/\{(\w+):(.+?)\}/', '\2', $string);
+			return '#^'.$string.'$#';
+		};
 
-    $routeToMethod = function ($string) use ($verbs) {
-      return preg_replace("/^({$verbs}).+$/", '\1', $string);
-    };
+		$routeToMethod = function ($string) use ($verbs) {
+			return preg_replace("/^({$verbs}).+$/", '\1', $string);
+		};
 
-    $routes = [];
-    foreach (\App::getRoutes() as $routeName => $route) {
-      $regex = $routeToRegex($routeName);
-      $method = $routeToMethod($routeName);
-      $routes[$method.$regex] = compact('route', 'method', 'regex');
-    }
+		$routes = [];
+		foreach (\App::getRoutes() as $routeName => $route) {
+			$regex = $routeToRegex($routeName);
+			$method = $routeToMethod($routeName);
+			$routes[$method.$regex] = compact('route', 'method', 'regex');
+		}
 
-    uksort($routes, function ($a, $b) {
-      return strlen($b) - strlen($a);
-    });
+		uksort($routes, function ($a, $b) {
+			return strlen($b) - strlen($a);
+		});
 
-    $method = $request->getMethod();
-    $path = rtrim($request->getPathInfo(), '/');
-    $foundRoute = null;
+		$method = $request->getMethod();
+		$path = rtrim($request->getPathInfo(), '/');
+		$foundRoute = null;
 
-    foreach ($routes as $regex => $details) {
-      $regex = substr($regex, strlen($details['method']));
-      if (true == preg_match($regex, $path) && $method == $details['method']) {
-        $foundRoute = $details['route'];
-        break;
-    	}
-    }
+		foreach ($routes as $regex => $details) {
+			$regex = substr($regex, strlen($details['method']));
+			if (true == preg_match($regex, $path) && $method == $details['method']) {
+				$foundRoute = $details['route'];
+				break;
+			}
+		}
 
-    return $foundRoute;
+		return $foundRoute;
 	}
 }
 
