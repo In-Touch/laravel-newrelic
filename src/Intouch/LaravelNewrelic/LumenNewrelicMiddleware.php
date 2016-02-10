@@ -76,19 +76,44 @@ class LumenNewrelicMiddleware
 	 */
 	protected function getRouteObject() {
 		$request = app('request');
-		$method = $request->getMethod();
 
-		$routes = app()->getRoutes();
-		$route = null;
+		$verbs = 'GET|POST|PUT|DELETE|PATCH';
 
-		foreach($routes as $object) {
-			if($object['action']['uses'] == $request->route()[1]['uses']) {
-				$route = $object['uri'];
-				break;
-			}
-		}
+    $routeToRegex = function ($string) use ($verbs) {
+      $string = preg_replace("/^({$verbs})/", '', $string);
+      $string = preg_replace('/\{\w+\}/', '[^/]+', $string);
+      $string = preg_replace('/\{(\w+):(.+?)\}/', '\2', $string);
+      return '#^'.$string.'$#';
+    };
 
-		return $routes[$method.$route];
+    $routeToMethod = function ($string) use ($verbs) {
+      return preg_replace("/^({$verbs}).+$/", '\1', $string);
+    };
+
+    $routes = [];
+    foreach (\App::getRoutes() as $routeName => $route) {
+      $regex = $routeToRegex($routeName);
+      $method = $routeToMethod($routeName);
+      $routes[$method.$regex] = compact('route', 'method', 'regex');
+    }
+
+    uksort($routes, function ($a, $b) {
+      return strlen($b) - strlen($a);
+    });
+
+    $method = $request->getMethod();
+    $path = rtrim($request->getPathInfo(), '/');
+    $foundRoute = null;
+
+    foreach ($routes as $regex => $details) {
+      $regex = substr($regex, strlen($details['method']));
+      if (true == preg_match($regex, $path) && $method == $details['method']) {
+        $foundRoute = $details['route'];
+        break;
+    	}
+    }
+
+    return $foundRoute;
 	}
 }
 
