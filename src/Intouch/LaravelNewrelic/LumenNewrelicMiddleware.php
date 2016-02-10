@@ -7,11 +7,11 @@ use Closure;
 
 class LumenNewrelicMiddleware
 {
-  /**
-   * @param Request $request
-   * @param Closure $next
-   */
-  public function handle(Request $request, Closure $next)
+	/**
+	 * @param Request $request
+	 * @param Closure $next
+	 */
+	public function handle(Request $request, Closure $next)
 	{
 		$config = app()['config'];
 
@@ -56,12 +56,7 @@ class LumenNewrelicMiddleware
 	 */
 	protected function getRoute()
 	{
-		$request = app('request');
-
-		$method = $request->getMethod();
-		$pathInfo = $request->getPathInfo();
-
-		return app()->getRoutes()[$method.$pathInfo]['uri'];
+		return $this->getRouteObject()['uri'];
 	}
 
 	/**
@@ -71,12 +66,29 @@ class LumenNewrelicMiddleware
 	 */
 	protected function getController()
 	{
+		return $this->getRouteObject()['action']['uses'];
+	}
+
+	/**
+	 * Get current route object
+	 * @date   2016-02-10
+	 * @return array
+	 */
+	protected function getRouteObject() {
 		$request = app('request');
-
 		$method = $request->getMethod();
-		$pathInfo = $request->getPathInfo();
 
-		return app()->getRoutes()[$method.$pathInfo]['action']['uses'];
+		$routes = app()->getRoutes();
+		$route = null;
+
+		foreach($routes as $object) {
+			if($object['action']['uses'] == $request->route()[1]['uses']) {
+				$route = $object['uri'];
+				break;
+			}
+		}
+
+		return $routes[$method.$route];
 	}
 }
 
