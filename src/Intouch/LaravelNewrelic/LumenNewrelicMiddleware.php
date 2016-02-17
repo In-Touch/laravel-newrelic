@@ -66,7 +66,7 @@ class LumenNewrelicMiddleware
 	 */
 	protected function getController()
 	{
-		return $this->getRouteObject()['action']['uses'];
+		return isset($this->getRouteObject()['action']['uses']) ? $this->getRouteObject()['action']['uses'] : 'Closure';
 	}
 
 	/**
