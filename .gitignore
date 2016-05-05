@@ -5,3 +5,4 @@ composer.lock
 /tests
 phpunit.xml
 .env
+.idea

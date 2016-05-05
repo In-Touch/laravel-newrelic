@@ -1,7 +1,16 @@
 # Laravel 5 NewRelic Service Provider
+
+| Laravel Version | Package Tag | Supported |
+|-----------------|-------------|-----------|
+| 5.2.x | 2.1.x | yes |
+| 5.1.x | 2.0.x | yes |
+| 5.0.x | 2.0.x | no |
+
 *[see below for Laravel 4.x support](https://github.com/In-Touch/laravel-newrelic#laravel-4x-support)*
 
 ## Installation
+
+See the table above for package version information, and change the version below accordingly.
 
 Using `composer`, run:
 
@@ -60,7 +69,7 @@ other gathers their timings (in milliseconds).  These recorded metrics will show
 
 The `NewrelicCountingObserver` can be used for any observable model events, including your custom events.  The 
 `NewrelicTimingObserver` currently only supports the built-in Eloquent observable events (see 
-[Model Events](http://laravel.com/docs/5.0/eloquent#model-events) in the Laravel documentation).
+[Model Events](https://laravel.com/docs/5.1/eloquent#events) in the Laravel documentation).
 
 Using the observers is simple - wherever you choose to register your model observers, simply add:
 
@@ -118,7 +127,7 @@ Any of its methods may be accessed as any other Facade is accessed, for example:
 
 | Laravel Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
-| 4.2.x | [1.1.5](https://github.com/In-Touch/laravel-newrelic/tree/1.1.5) | yes |
+| 4.2.x | [1.1.5](https://github.com/In-Touch/laravel-newrelic/tree/1.1.5) | no |
 | 4.1.x | [1.1.5](https://github.com/In-Touch/laravel-newrelic/tree/1.1.5) | no |
 | 4.0.x | [1.0.4](https://github.com/In-Touch/laravel-newrelic/tree/1.0.4) | no |
 *we will review PRs for unsupported versions, but we don't use those versions in production ourselves so we aren't
