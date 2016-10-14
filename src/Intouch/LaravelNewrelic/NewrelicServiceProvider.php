@@ -91,14 +91,14 @@ class NewrelicServiceProvider extends ServiceProvider
 	{
 		return str_replace(
 			[
-				'{controller}',
+			    '{controller}',
 			    '{method}',
 			    '{route}',
 			    '{path}',
 			    '{uri}',
 			],
 			[
-				$this->getController(),
+			    $this->getController(),
 			    $this->getMethod(),
 			    $this->getRoute(),
 			    $this->getPath(),
