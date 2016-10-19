@@ -16,12 +16,12 @@ See the table above for package version information, and change the version belo
 
 Using `composer`, run:
 
-    composer require intouch/laravel-newrelic:"~2.0"
+    composer require intouch/laravel-newrelic:"~2.1"
 
 Or add `intouch/laravel-newrelic` to your composer requirements:
 
     "require": {
-        "intouch/laravel-newrelic": "~2.0"
+        "intouch/laravel-newrelic": "~2.1"
     }
 
 ... and then run `composer install`
