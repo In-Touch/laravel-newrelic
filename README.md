@@ -26,6 +26,8 @@ Or add `intouch/laravel-newrelic` to your composer requirements:
 
 ... and then run `composer install`
 
+### Laravel
+
 Once the package is installed, open your `config/app.php` configuration file and locate the `providers` key.  Add 
 the following line to the end:
 
@@ -42,6 +44,23 @@ Optionally, locate the `aliases` key and add the following line:
 Finally, publish the default configuration (it will end up in `config/newrelic.php`):
 
     php artisan vendor:publish --provider="Intouch\LaravelNewrelic\NewrelicServiceProvider"
+    
+### Lumen
+
+Once the package is installed, open your `bootstrap/app.php` and register the middleware and the service provider:
+
+```php
+$app->middleware([
+    ...
+    Intouch\LaravelNewrelic\LumenNewrelicMiddleware::class,
+]);
+
+...
+
+$app->register(Intouch\LaravelNewrelic\LumenNewrelicServiceProvider::class);
+```
+
+Then, copy [src/config/config.php](src/config/config.php) to `config/newrelic.php` and edit it if necessary.
 
 ## Configuration
 
