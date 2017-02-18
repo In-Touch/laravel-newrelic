@@ -15,8 +15,8 @@ class LumenNewrelicServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->app->configure('newrelic');
-
-		$this->app['newrelic'] = $this->app->share(
+		$this->app->singleton(
+			'newrelic',
 			function ( $app ) {
 				return new Newrelic( $app['config']->get( 'newrelic.throw_if_not_installed' ) );
 			}
