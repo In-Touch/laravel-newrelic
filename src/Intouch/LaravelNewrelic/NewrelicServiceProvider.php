@@ -74,8 +74,8 @@ class NewrelicServiceProvider extends ServiceProvider
 	{
 		$me  = $this;
 		$app = $this->app;
-		$app['router']->after(
-			function ( $request, $response ) use ( $me ) {
+		$app['router']->matched(
+			function ( ) use ( $me ) {
 				if (true == $me->app['config']->get( 'newrelic.auto_name_transactions' )) {
 					$me->app['newrelic']->nameTransaction( $me->getTransactionName() );
 				}
