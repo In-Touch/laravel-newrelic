@@ -16,6 +16,7 @@
  */
 namespace Intouch\LaravelNewrelic;
 
+use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\ServiceProvider;
 use Intouch\Newrelic\Newrelic;
@@ -42,6 +43,7 @@ class NewrelicServiceProvider extends ServiceProvider
 		$this->publishes( [ $config => config_path( 'newrelic.php' ) ], 'config' );
 
 		$this->registerNamedTransactions();
+		$this->registerQueueTransactions();
 	}
 
 	/**
@@ -84,6 +86,26 @@ class NewrelicServiceProvider extends ServiceProvider
 	}
 
 	/**
+	 * Registers the queue transactions with the NewRelic PHP agent
+	 */
+	protected function registerQueueTransactions()
+	{
+		$app = $this->app;
+
+		$app['queue']->before(function (JobProcessed $event) use ( $app ) {
+			$app['newrelic']->backgroundJob( true );
+			$app['newrelic']->startTransaction( ini_get('newrelic.appname') );
+			if ($app['config']->get( 'newrelic.auto_name_jobs' )) {
+				$app['newrelic']->nameTransaction( $this->getJobName($event) );
+			}
+		});
+
+		$app['queue']->after(function (JobProcessed $event) use ( $app ) {
+			$app['newrelic']->endTransaction();
+		});
+	}
+
+	/**
 	 * Build the transaction name
 	 *
 	 * @return string
@@ -106,6 +128,32 @@ class NewrelicServiceProvider extends ServiceProvider
 			    $this->getUri(),
 			],
 			$this->app['config']->get( 'newrelic.name_provider' )
+		);
+	}
+
+	/**
+	 * Build the job name
+	 *
+	 * @return string
+	 */
+	public function getJobName(JobProcessed $event)
+	{
+		return str_replace(
+			[
+			    '{connection}',
+			    '{class}',
+			    '{data}',
+			    '{args}',
+			    '{input}',
+			],
+			[
+			    $event->connectionName,
+			    get_class($event->job),
+			    json_encode($event->data),
+			    implode(', ', array_keys($event->data)),
+			    implode(', ', array_values($event->data)),
+			],
+			$this->app['config']->get( 'newrelic.job_name_provider' )
 		);
 	}
 
