@@ -1,13 +1,14 @@
-# Laravel 5 NewRelic Service Provider
+# Laravel/Lumen 5 NewRelic Service Provider
 
-| Laravel Version | Package Tag | Supported |
+| Laravel/Lumen Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
-| 5.4.x | 2.2.x | yes |
-| 5.2.x | 2.1.x | yes |
-| 5.1.x | 2.0.x | yes |
-| 5.0.x | 2.0.x | no |
+| 5.4.x (Laravel/Lumen) | 2.2.x | yes |
+| 5.2.x (Laravel/Lumen) | 2.1.x | yes |
+| 5.1.x (Laravel only) | 2.0.x | yes |
+| 5.0.x (Laravel only) | 2.0.x | no |
 
-*[see below for Laravel 4.x support](https://github.com/In-Touch/laravel-newrelic#laravel-4x-support)*
+* Lumen support was added in 2.1.0
+* *[see below for Laravel 4.x support](https://github.com/In-Touch/laravel-newrelic#laravel-4x-support)*
 
 ## Installation
 
@@ -15,15 +16,17 @@ See the table above for package version information, and change the version belo
 
 Using `composer`, run:
 
-    composer require intouch/laravel-newrelic:"~2.0"
+    composer require intouch/laravel-newrelic:"~2.1"
 
 Or add `intouch/laravel-newrelic` to your composer requirements:
 
     "require": {
-        "intouch/laravel-newrelic": "~2.0"
+        "intouch/laravel-newrelic": "~2.1"
     }
 
 ... and then run `composer install`
+
+### Laravel
 
 Once the package is installed, open your `config/app.php` configuration file and locate the `providers` key.  Add 
 the following line to the end:
@@ -41,6 +44,23 @@ Optionally, locate the `aliases` key and add the following line:
 Finally, publish the default configuration (it will end up in `config/newrelic.php`):
 
     php artisan vendor:publish --provider="Intouch\LaravelNewrelic\NewrelicServiceProvider"
+    
+### Lumen
+
+Once the package is installed, open your `bootstrap/app.php` and register the middleware and the service provider:
+
+```php
+$app->middleware([
+    ...
+    Intouch\LaravelNewrelic\LumenNewrelicMiddleware::class,
+]);
+
+...
+
+$app->register(Intouch\LaravelNewrelic\LumenNewrelicServiceProvider::class);
+```
+
+Then, copy [src/config/config.php](src/config/config.php) to `config/newrelic.php` and edit it if necessary.
 
 ## Configuration
 
