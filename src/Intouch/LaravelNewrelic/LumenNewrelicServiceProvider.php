@@ -2,6 +2,7 @@
 
 namespace Intouch\LaravelNewrelic;
 
+use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\ServiceProvider;
 use Intouch\Newrelic\Newrelic;
@@ -23,7 +24,7 @@ class LumenNewrelicServiceProvider extends ServiceProvider
 			}
 		);
 
-		app('queue')->before(function (JobProcessed $event) {
+		app('queue')->before(function (JobProcessing $event) {
 			app('newrelic')->backgroundJob( true );
 			app('newrelic')->startTransaction( ini_get('newrelic.appname') );
 			if (app('config')->get( 'newrelic.auto_name_jobs' )) {
