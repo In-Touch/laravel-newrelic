@@ -91,7 +91,7 @@ class LumenNewrelicMiddleware
 		};
 
 		$routes = [];
-		foreach (app()->getRoutes() as $routeName => $route) {
+		foreach (app()->router->getRoutes() as $routeName => $route) {
 			$regex = $routeToRegex($routeName);
 			$method = $routeToMethod($routeName);
 			$routes[$method.$regex] = compact('route', 'method', 'regex');
