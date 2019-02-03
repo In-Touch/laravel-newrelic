@@ -48,9 +48,6 @@ return array(
 	 *      a pattern you define yourself, available tokens:
 	 *          {connection} = The name of the queue connection
 	 *          {class} = The name of the job class
-	 *          {data} = JSON string with all data passed to the job
-	 *          {args} = List of variable names passed to the job
-	 *          {input} = List of values passed to the job
 	 *      anything that is not a matched token will remain a string literal
 	 *      example:
 	 *          Given a job named App\MyJob, with data {"subject":"hello","to":"world"},
