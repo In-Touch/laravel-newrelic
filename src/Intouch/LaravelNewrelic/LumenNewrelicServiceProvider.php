@@ -3,6 +3,7 @@
 namespace Intouch\LaravelNewrelic;
 
 use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\ServiceProvider;
 use Intouch\Newrelic\Newrelic;
 
@@ -23,7 +24,7 @@ class LumenNewrelicServiceProvider extends ServiceProvider
 			}
 		);
 
-		app('queue')->before(function (JobProcessed $event) {
+		app('queue')->before(function (JobProcessing $event) {
 			app('newrelic')->backgroundJob( true );
 			app('newrelic')->startTransaction( ini_get('newrelic.appname') );
 			if (app('config')->get( 'newrelic.auto_name_jobs' )) {
@@ -41,24 +42,18 @@ class LumenNewrelicServiceProvider extends ServiceProvider
 	*
 	* @return string
 	*/
-	public function getJobName(JobProcessed $event)
+	public function getJobName(JobProcessing $event)
 	{
-		return str_replace(
-			[
-				'{connection}',
-				'{class}',
-				'{data}',
-				'{args}',
-				'{input}',
-			],
-			[
-				$event->connectionName,
-				get_class($event->job),
-				json_encode($event->data),
-				implode(', ', array_keys($event->data)),
-				implode(', ', array_values($event->data)),
-			],
-			$this->app['config']->get( 'newrelic.job_name_provider' )
-		);
+        return str_replace(
+            [
+                '{connection}',
+                '{class}',
+            ],
+            [
+                $event->connectionName,
+                $event->job->resolveName(),
+            ],
+            $this->app['config']->get( 'newrelic.job_name_provider' )
+        );
 	}
 }
