@@ -25,187 +25,187 @@ use Intouch\Newrelic\Newrelic;
 class NewrelicServiceProvider extends ServiceProvider
 {
 
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
+	/**
+	 * Indicates if loading of the provider is deferred.
+	 *
+	 * @var bool
+	 */
+	protected $defer = false;
 
-    /**
-     * Bootstrap the application events.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $config = realpath( __DIR__ . '/../../config/config.php' );
-        $this->mergeConfigFrom( $config, 'newrelic' );
-        $this->publishes( [ $config => config_path( 'newrelic.php' ) ], 'config' );
+	/**
+	 * Bootstrap the application events.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		$config = realpath( __DIR__ . '/../../config/config.php' );
+		$this->mergeConfigFrom( $config, 'newrelic' );
+		$this->publishes( [ $config => config_path( 'newrelic.php' ) ], 'config' );
 
-        $this->registerNamedTransactions();
-        $this->registerQueueTransactions();
-    }
+		$this->registerNamedTransactions();
+		$this->registerQueueTransactions();
+	}
 
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->singleton(
-            'newrelic',
-            function ( $app ) {
-                return new Newrelic( $app['config']->get( 'newrelic.throw_if_not_installed' ) );
-            }
-        );
-    }
+	/**
+	 * Register the service provider.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+		$this->app->singleton(
+			'newrelic',
+			function ( $app ) {
+				return new Newrelic( $app['config']->get( 'newrelic.throw_if_not_installed' ) );
+			}
+		);
+	}
 
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [ 'newrelic' ];
-    }
+	/**
+	 * Get the services provided by the provider.
+	 *
+	 * @return array
+	 */
+	public function provides()
+	{
+		return [ 'newrelic' ];
+	}
 
-    /**
-     * Registers the named transactions with the NewRelic PHP agent
-     */
-    protected function registerNamedTransactions()
-    {
-        $app = $this->app;
+	/**
+	 * Registers the named transactions with the NewRelic PHP agent
+	 */
+	protected function registerNamedTransactions()
+	{
+		$app = $this->app;
 
-        if ($app['config']->get( 'newrelic.auto_name_transactions' )) {
-            $app['events']->listen(RouteMatched::class, function (RouteMatched $routeMatched) use ( $app ) {
-                $app['newrelic']->nameTransaction( $this->getTransactionName() );
-            });
-        }
-    }
+		if ($app['config']->get( 'newrelic.auto_name_transactions' )) {
+			$app['events']->listen(RouteMatched::class, function (RouteMatched $routeMatched) use ( $app ) {
+				$app['newrelic']->nameTransaction( $this->getTransactionName() );
+			});
+		}
+	}
 
-    /**
-     * Registers the queue transactions with the NewRelic PHP agent
-     */
-    protected function registerQueueTransactions()
-    {
-        $app = $this->app;
+	/**
+	 * Registers the queue transactions with the NewRelic PHP agent
+	 */
+	protected function registerQueueTransactions()
+	{
+		$app = $this->app;
 
-        $app['queue']->before(function (JobProcessing $event) use ( $app ) {
-            $app['newrelic']->backgroundJob( true );
-            $app['newrelic']->startTransaction( ini_get('newrelic.appname') );
-            if ($app['config']->get( 'newrelic.auto_name_jobs' )) {
-                $app['newrelic']->nameTransaction( $this->getJobName($event) );
-            }
-        });
+		$app['queue']->before(function (JobProcessing $event) use ( $app ) {
+			$app['newrelic']->backgroundJob( true );
+			$app['newrelic']->startTransaction( ini_get('newrelic.appname') );
+			if ($app['config']->get( 'newrelic.auto_name_jobs' )) {
+				$app['newrelic']->nameTransaction( $this->getJobName($event) );
+			}
+		});
 
-        $app['queue']->after(function (JobProcessed $event) use ( $app ) {
-            $app['newrelic']->endTransaction();
-        });
-    }
+		$app['queue']->after(function (JobProcessed $event) use ( $app ) {
+			$app['newrelic']->endTransaction();
+		});
+	}
 
-    /**
-     * Build the transaction name
-     *
-     * @return string
-     */
-    public function getTransactionName()
-    {
-        return str_replace(
-            [
-                '{controller}',
-                '{method}',
-                '{route}',
-                '{path}',
-                '{uri}',
-            ],
-            [
-                $this->getController(),
-                $this->getMethod(),
-                $this->getRoute(),
-                $this->getPath(),
-                $this->getUri(),
-            ],
-            $this->app['config']->get( 'newrelic.name_provider' )
-        );
-    }
+	/**
+	 * Build the transaction name
+	 *
+	 * @return string
+	 */
+	public function getTransactionName()
+	{
+		return str_replace(
+			[
+				'{controller}',
+				'{method}',
+				'{route}',
+				'{path}',
+				'{uri}',
+			],
+			[
+				$this->getController(),
+				$this->getMethod(),
+				$this->getRoute(),
+				$this->getPath(),
+				$this->getUri(),
+			],
+			$this->app['config']->get( 'newrelic.name_provider' )
+		);
+	}
 
-    /**
-     * Build the job name
-     *
-     * @param JobProcessing $event
-     * @return string
-     */
-    public function getJobName(JobProcessing $event)
-    {
-        return str_replace(
-            [
-                '{connection}',
-                '{class}',
-            ],
-            [
-                $event->connectionName,
-                $event->job->resolveName(),
-            ],
-            $this->app['config']->get( 'newrelic.job_name_provider' )
-        );
-    }
+	/**
+	 * Build the job name
+	 *
+	 * @param JobProcessing $event
+	 * @return string
+	 */
+	public function getJobName(JobProcessing $event)
+	{
+		return str_replace(
+			[
+				'{connection}',
+				'{class}',
+			],
+			[
+				$event->connectionName,
+				$event->job->resolveName(),
+			],
+			$this->app['config']->get( 'newrelic.job_name_provider' )
+		);
+	}
 
-    /**
-     * Get the request method
-     *
-     * @return string
-     */
-    protected function getMethod()
-    {
-        return strtoupper( $this->app['router']->getCurrentRequest()->method() );
-    }
+	/**
+	 * Get the request method
+	 *
+	 * @return string
+	 */
+	protected function getMethod()
+	{
+		return strtoupper( $this->app['router']->getCurrentRequest()->method() );
+	}
 
-    /**
-     * Get the request URI path
-     *
-     * @return string
-     */
-    protected function getPath()
-    {
-        return ($this->app['router']->current()->uri() == '' ? '/' : $this->app['router']->current()->uri());
-    }
+	/**
+	 * Get the request URI path
+	 *
+	 * @return string
+	 */
+	protected function getPath()
+	{
+		return ($this->app['router']->current()->uri() == '' ? '/' : $this->app['router']->current()->uri());
+	}
 
-    protected function getUri()
-    {
-        return $this->app['router']->getCurrentRequest()->path();
-    }
+	protected function getUri()
+	{
+		return $this->app['router']->getCurrentRequest()->path();
+	}
 
-    /**
-     * Get the current controller / action
-     *
-     * @return string
-     */
-    protected function getController()
-    {
-        $controller = $this->app['router']->current() ? $this->app['router']->current()->getActionName() : 'unknown';
-        if ($controller === 'Closure') {
-            $controller .= '@' . $this->getPath();
-        }
+	/**
+	 * Get the current controller / action
+	 *
+	 * @return string
+	 */
+	protected function getController()
+	{
+		$controller = $this->app['router']->current() ? $this->app['router']->current()->getActionName() : 'unknown';
+		if ($controller === 'Closure') {
+			$controller .= '@' . $this->getPath();
+		}
 
-        return $controller;
-    }
+		return $controller;
+	}
 
-    /**
-     * Get the current route name, or controller if not named
-     *
-     * @return string
-     */
-    protected function getRoute()
-    {
-        $name = $this->app['router']->currentRouteName();
-        if ( !$name )
-        {
-            $name = $this->getController();
-        }
+	/**
+	 * Get the current route name, or controller if not named
+	 *
+	 * @return string
+	 */
+	protected function getRoute()
+	{
+		$name = $this->app['router']->currentRouteName();
+		if ( !$name )
+		{
+			$name = $this->getController();
+		}
 
-        return $name;
-    }
+		return $name;
+	}
 }
