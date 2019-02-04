@@ -2,8 +2,7 @@
 
 | Laravel Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
-| 5.7.x | ? | yes |
-| 5.4.x | 2.2.x | yes |
+| 5.x.x | 2.2.x | yes |
 | 5.2.x | 2.1.x | yes |
 | 5.1.x | 2.0.x | yes |
 | 5.0.x | 2.0.x | no |
