@@ -17,6 +17,7 @@
 namespace Intouch\LaravelNewrelic;
 
 use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\ServiceProvider;
 use Intouch\Newrelic\Newrelic;
@@ -92,7 +93,7 @@ class NewrelicServiceProvider extends ServiceProvider
 	{
 		$app = $this->app;
 
-		$app['queue']->before(function (JobProcessed $event) use ( $app ) {
+		$app['queue']->before(function (JobProcessing $event) use ( $app ) {
 			$app['newrelic']->backgroundJob( true );
 			$app['newrelic']->startTransaction( ini_get('newrelic.appname') );
 			if ($app['config']->get( 'newrelic.auto_name_jobs' )) {
@@ -114,18 +115,18 @@ class NewrelicServiceProvider extends ServiceProvider
 	{
 		return str_replace(
 			[
-			    '{controller}',
-			    '{method}',
-			    '{route}',
-			    '{path}',
-			    '{uri}',
+				'{controller}',
+				'{method}',
+				'{route}',
+				'{path}',
+				'{uri}',
 			],
 			[
-			    $this->getController(),
-			    $this->getMethod(),
-			    $this->getRoute(),
-			    $this->getPath(),
-			    $this->getUri(),
+				$this->getController(),
+				$this->getMethod(),
+				$this->getRoute(),
+				$this->getPath(),
+				$this->getUri(),
 			],
 			$this->app['config']->get( 'newrelic.name_provider' )
 		);
@@ -134,24 +135,19 @@ class NewrelicServiceProvider extends ServiceProvider
 	/**
 	 * Build the job name
 	 *
+	 * @param JobProcessing $event
 	 * @return string
 	 */
-	public function getJobName(JobProcessed $event)
+	public function getJobName(JobProcessing $event)
 	{
 		return str_replace(
 			[
-			    '{connection}',
-			    '{class}',
-			    '{data}',
-			    '{args}',
-			    '{input}',
+				'{connection}',
+				'{class}',
 			],
 			[
-			    $event->connectionName,
-			    get_class($event->job),
-			    json_encode($event->data),
-			    implode(', ', array_keys($event->data)),
-			    implode(', ', array_values($event->data)),
+				$event->connectionName,
+				$event->job->resolveName(),
 			],
 			$this->app['config']->get( 'newrelic.job_name_provider' )
 		);
