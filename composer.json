@@ -23,5 +23,15 @@
             "Intouch\\LaravelNewrelic": "src/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Intouch\\LaravelNewrelic\\NewrelicServiceProvider"
+            ],
+            "aliases": {
+                 "Newrelic": "Intouch\\LaravelNewrelic\\Facades\\Newrelic"
+            }
+        }
+    },
     "minimum-stability": "dev"
 }
