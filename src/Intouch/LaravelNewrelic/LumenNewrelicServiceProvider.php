@@ -2,6 +2,7 @@
 
 namespace Intouch\LaravelNewrelic;
 
+use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\ServiceProvider;
