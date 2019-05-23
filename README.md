@@ -60,7 +60,7 @@ The `newrelic.name_provider` config parameter holds this string - note that non-
 | {path}       | Registered route path                       | /users/{id?} |
 | {uri}        | Request URI path                            | /users/12345 |
 
-The default `newrelic.name_provider` string is `'{uri} {route}'`.
+The default `newrelic.name_provider` string is `'{controller}'`.
 
 ## Eloquent Model Observers
 
