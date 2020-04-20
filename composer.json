@@ -4,7 +4,7 @@
     "keywords":          ["newrelic", "new relic", "laravel"],
     "homepage":          "https://github.com/In-Touch/laravel-newrelic",
     "license":           "Apache 2.0",
-    "description":       "Laravel 5 NewRelic Integration",
+    "description":       "Laravel NewRelic Integration",
     "authors":           [
         {
             "name":  "Patrick Leckey",
@@ -21,6 +21,16 @@
     "autoload":          {
         "psr-0": {
             "Intouch\\LaravelNewrelic": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Intouch\\LaravelNewrelic\\NewrelicServiceProvider"
+            ],
+            "aliases": {
+                "Newrelic": "Intouch\\LaravelNewrelic\\Facades\\Newrelic"
+            }
         }
     },
     "minimum-stability": "dev"

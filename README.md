@@ -13,34 +13,15 @@
 
 See the table above for package version information, and change the version below accordingly.
 
-Using `composer`, run:
-
-    composer require intouch/laravel-newrelic:"~2.0"
-
-Or add `intouch/laravel-newrelic` to your composer requirements:
-
-    "require": {
-        "intouch/laravel-newrelic": "~2.0"
-    }
-
-... and then run `composer install`
-
-Once the package is installed, open your `config/app.php` configuration file and locate the `providers` key.  Add 
-the following line to the end:
-
-```php
-Intouch\LaravelNewrelic\NewrelicServiceProvider::class,
+Use `composer` to install the package::
+```sh
+composer require intouch/laravel-newrelic
 ```
 
-Optionally, locate the `aliases` key and add the following line:
-
-```php
-'Newrelic' => Intouch\LaravelNewrelic\Facades\Newrelic::class,
+Optionally, you can publish the default configuration (it will end up in `config/newrelic.php`):
+```sh
+php artisan vendor:publish --provider="Intouch\LaravelNewrelic\NewrelicServiceProvider"
 ```
-
-Finally, publish the default configuration (it will end up in `config/newrelic.php`):
-
-    php artisan vendor:publish --provider="Intouch\LaravelNewrelic\NewrelicServiceProvider"
 
 ## Configuration
 
@@ -117,11 +98,11 @@ Service Provider.
 
 This package includes a Facade to the [Intouch/Newrelic](http://github.com/In-Touch/newrelic) class.  
 Any of its methods may be accessed as any other Facade is accessed, for example:
-
-    App::after( function() {
-        Newrelic::setAppName( 'MyApp' );
-    } );
-
+```php
+App::after( function() {
+    Newrelic::setAppName( 'MyApp' );
+} );
+```
 ... would set the NewRelic App Name to 'MyApp'
 
 ## Laravel 4.x Support
