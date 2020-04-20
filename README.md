@@ -2,6 +2,7 @@
 
 | Laravel Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
+| 7.x.x | 3.0.x | yes |
 | 5.x.x | 2.2.x | yes |
 | 5.2.x | 2.1.x | yes |
 | 5.1.x | 2.0.x | yes |
@@ -13,34 +14,15 @@
 
 See the table above for package version information, and change the version below accordingly.
 
-Using `composer`, run:
-
-    composer require intouch/laravel-newrelic:"~2.0"
-
-Or add `intouch/laravel-newrelic` to your composer requirements:
-
-    "require": {
-        "intouch/laravel-newrelic": "~2.0"
-    }
-
-... and then run `composer install`
-
-Once the package is installed, open your `config/app.php` configuration file and locate the `providers` key.  Add 
-the following line to the end:
-
-```php
-Intouch\LaravelNewrelic\NewrelicServiceProvider::class,
+Use `composer` to install the package::
+```sh
+composer require intouch/laravel-newrelic
 ```
 
-Optionally, locate the `aliases` key and add the following line:
-
-```php
-'Newrelic' => Intouch\LaravelNewrelic\Facades\Newrelic::class,
+Optionally, you can publish the default configuration (it will end up in `config/newrelic.php`):
+```sh
+php artisan vendor:publish --provider="Intouch\LaravelNewrelic\NewrelicServiceProvider"
 ```
-
-Finally, publish the default configuration (it will end up in `config/newrelic.php`):
-
-    php artisan vendor:publish --provider="Intouch\LaravelNewrelic\NewrelicServiceProvider"
 
 ## Configuration
 
@@ -117,26 +99,16 @@ Service Provider.
 
 This package includes a Facade to the [Intouch/Newrelic](http://github.com/In-Touch/newrelic) class.  
 Any of its methods may be accessed as any other Facade is accessed, for example:
-
-    App::after( function() {
-        Newrelic::setAppName( 'MyApp' );
-    } );
-
+```php
+App::after( function() {
+    Newrelic::setAppName( 'MyApp' );
+} );
+```
 ... would set the NewRelic App Name to 'MyApp'
-
-## Laravel 4.x Support
-
-| Laravel Version | Package Tag | Supported |
-|-----------------|-------------|-----------|
-| 4.2.x | [1.1.5](https://github.com/In-Touch/laravel-newrelic/tree/1.1.5) | no |
-| 4.1.x | [1.1.5](https://github.com/In-Touch/laravel-newrelic/tree/1.1.5) | no |
-| 4.0.x | [1.0.4](https://github.com/In-Touch/laravel-newrelic/tree/1.0.4) | no |
-*we will review PRs for unsupported versions, but we don't use those versions in production ourselves so we aren't
-testing / working on that*
 
 ## Issues
 
-Before opening an issues for data not reporting in the format you have configured, please check your NewRelic PHP Agent 
+Before opening issues for data not reporting in the format you have configured, please check your NewRelic PHP Agent 
 logs and please see:
 [https://discuss.newrelic.com/t/php-agent-4-19-0-disabled-3rd-party-service-provider-incorrectly/1666](https://discuss.newrelic.com/t/php-agent-4-19-0-disabled-3rd-party-service-provider-incorrectly/16667)
 
