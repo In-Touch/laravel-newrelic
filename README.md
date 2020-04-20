@@ -2,6 +2,7 @@
 
 | Laravel Version | Package Tag | Supported |
 |-----------------|-------------|-----------|
+| 7.x.x | 3.0.x | yes |
 | 5.x.x | 2.2.x | yes |
 | 5.2.x | 2.1.x | yes |
 | 5.1.x | 2.0.x | yes |
@@ -105,19 +106,9 @@ App::after( function() {
 ```
 ... would set the NewRelic App Name to 'MyApp'
 
-## Laravel 4.x Support
-
-| Laravel Version | Package Tag | Supported |
-|-----------------|-------------|-----------|
-| 4.2.x | [1.1.5](https://github.com/In-Touch/laravel-newrelic/tree/1.1.5) | no |
-| 4.1.x | [1.1.5](https://github.com/In-Touch/laravel-newrelic/tree/1.1.5) | no |
-| 4.0.x | [1.0.4](https://github.com/In-Touch/laravel-newrelic/tree/1.0.4) | no |
-*we will review PRs for unsupported versions, but we don't use those versions in production ourselves so we aren't
-testing / working on that*
-
 ## Issues
 
-Before opening an issues for data not reporting in the format you have configured, please check your NewRelic PHP Agent 
+Before opening issues for data not reporting in the format you have configured, please check your NewRelic PHP Agent 
 logs and please see:
 [https://discuss.newrelic.com/t/php-agent-4-19-0-disabled-3rd-party-service-provider-incorrectly/1666](https://discuss.newrelic.com/t/php-agent-4-19-0-disabled-3rd-party-service-provider-incorrectly/16667)
 
